@@ -11,31 +11,42 @@
             opacity: 1 !important;
             stroke: black;
             stroke-width: 1px;
+        }*/
+        .axis-grid line {
+            stroke: lightgrey;
+            stroke-opacity: 0.7;
+            shape-rendering: crispEdges;
         }
 
-        .axis-grid line {
-            stroke: #def;
-        } */
+        .axis-grid path {
+            stroke-width: 0;
+        }
+        
+        body{
+            background-color: #fff3f3;
+        }
     </style>
-    <br>
-    <header style="text-align: center;">Hypothesis: Songs in the Spotify weekly charts stay the longest on the weekly
+    <header style="text-align: center;"><b>Hypothesis:</b> Songs in the Spotify weekly charts stay the longest on the weekly
         charts when they have the most danceability.</header>
+    <header style="text-align: center; font-size: medium;"><b>Source:</b> https://www.kaggle.com/datasets/sveta151/spotify-top-chart-songs-2022</header>
+    <header style="text-align: center; font-size: smaller;"><b>Danceability Definition:</b> determines the ease with which a person could dance to a song over the course of the whole song.</header>
+    <hr>
 </head>
 
 <body>
     <br>
-    <br>
-    <br>
     <div>
-        <div style="float: left; padding-left: 150px" ; id="my_dataviz"></div>
-        <div style="float: right; padding-right: 150px" id="my_datavizhist"></div>
+        <div style="text-align: center;" id="my_dataviz"></div>
+        <br>
+        <hr>
+        <div style="text-align: center;" id="my_datavizhist"></div>
     </div>
     <script>
         // 1== major
         // set the dimensions and margins of the graph
-        var margin = { top: 10, right: 30, bottom: 40, left: 60 },
-            width = 520 - margin.left - margin.right,
-            height = 520 - margin.top - margin.bottom;
+        var margin = { top: 35, right: 20, bottom: 65, left: 60 },
+            width = 600 - margin.left - margin.right,
+            height = 350 - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
         var svg = d3.select("#my_dataviz")
@@ -64,12 +75,23 @@
             svg.append("g")
                 .call(d3.axisLeft(y));
 
+            svg.append('g')
+                .attr('class', 'axis-grid')
+                .call(d3.axisLeft(y).tickSize(-width).tickFormat("").ticks(8));
+
             // Add X axis label:
             svg.append("text")
                 .attr("text-anchor", "end")
                 .attr("x", width / 2 + margin.left)
-                .attr("y", height + margin.top + 27)
+                .attr("y", height + margin.top + 15)
                 .text("Weeks on Charts");
+
+            svg.append("text")
+                .attr("x", (width/2))
+                .attr("dy", "-10px")
+                .style("text-anchor", "middle")
+                .style("font-size", "18px")
+                .text("Danceability vs. Weeks on Charts");
 
             svg.append("text")
                 .attr("text-anchor", "end")
@@ -93,11 +115,11 @@
                 .attr("r", 1.5)
                 .style("fill", function (d) { return color(d.mode) });
 
-            // Handmade legend
-            svg.append("circle").attr("cx", width / 2 + 155).attr("cy", 25).attr("r", 4).style("fill", "#F8766D")
-            svg.append("circle").attr("cx", width / 2 + 155).attr("cy", 45).attr("r", 4).style("fill", "#619CFF")
-            svg.append("text").attr("x", width / 2 + 165).attr("y", 25).text("Major Scale").style("font-size", "10pt").attr("alignment-baseline", "middle")
-            svg.append("text").attr("x", width / 2 + 165).attr("y", 45).text("Minor Scale").style("font-size", "10pt",).attr("alignment-baseline", "middle")
+            // Legend for the line graph
+            svg.append("circle").attr("cx", width / 2 + 185).attr("cy", 215).attr("r", 4).style("fill", "#F8766D")
+            svg.append("circle").attr("cx", width / 2 + 185).attr("cy", 235).attr("r", 4).style("fill", "#619CFF")
+            svg.append("text").attr("x", width / 2 + 195).attr("y", 215).text("Major Scale").style("font-size", "10pt").attr("alignment-baseline", "middle")
+            svg.append("text").attr("x", width / 2 + 195).attr("y", 235).text("Minor Scale").style("font-size", "10pt",).attr("alignment-baseline", "middle")
         })
 
         // append the svg object to the body of the page
@@ -138,16 +160,23 @@
 
             svg2.append("text")
                 .attr("text-anchor", "end")
-                .attr("x", width / 2 + margin.left)
-                .attr("y", height + margin.top + 27)
+                .attr("x", width / 2 + margin.left -20)
+                .attr("y", height + margin.top + 15)
                 .text("Danceability");
 
             svg2.append("text")
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
                 .attr("y", -margin.left + 20)
-                .attr("x", -margin.top - height / 2 + 78)
+                .attr("x", -margin.top - height / 2 + 97)
                 .text("# of Songs on Charts");
+            
+            svg2.append("text")
+                .attr("x", (width/2))
+                .attr("dy", "-10px")
+                .style("text-anchor", "middle")
+                .style("font-size", "18px")
+                .text("Count of Songs on Charts by Danceability");
 
             // append the bar rectangles to the svg element
             svg2.selectAll("rect")
@@ -158,7 +187,7 @@
                 .attr("transform", function (d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
                 .attr("width", function (d) { return x(d.x1) - x(d.x0) - 1; })
                 .attr("height", function (d) { return height - y(d.length); })
-                .style("fill", "#69b3a2")
+                .style("fill", "#619CFF")
         })
     </script>
 </body>
