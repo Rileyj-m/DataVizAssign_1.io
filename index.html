@@ -97,8 +97,8 @@
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
                 .attr("y", -margin.left + 20)
-                .attr("x", -margin.top - height / 2 + 78)
-                .text("Danceability");
+                .attr("x", -margin.top - height / 2 +170)
+                .text("Danceability (Mean of Various Categories)");
 
             var color = d3.scaleOrdinal()
                 .domain(["1", "0"])
@@ -160,9 +160,9 @@
 
             svg2.append("text")
                 .attr("text-anchor", "end")
-                .attr("x", width / 2 + margin.left -20)
+                .attr("x", width / 2 + margin.left +80)
                 .attr("y", height + margin.top + 15)
-                .text("Danceability");
+                .text("Danceability (Mean of Various Categories)");
 
             svg2.append("text")
                 .attr("text-anchor", "end")
